@@ -1,0 +1,45 @@
+Popularity algo:
+(likes/users) * 100 + ((matches/possible matches) * 100)/2 +(page visits/100);
+
+Sexual orientations(SO):
+Straight
+Gay/Lesbian
+Bisexual
+
+Features(F):
+Gender - male, female;
+Hair - black, blond, redhead, brunette, other;
+Eyes - green, brown, blue, violit, grey, hazel, other;
+Height;
+
+Personality(P)(can choose 3):
+-Love outdoors
+-Animal lover
+-Sports
+-Netflix & chill
+-Coutch potato
+-Video game lover
+-Board game lover
+-All games lover
+-Love to travel
+-Family is important
+-Food lover
+-Intovert
+-Extrovert
+-Needs personal space
+-The closer the better(fisical touch)
+-Sleep is the best
+
+Match alfo:
+If (SO == Straight)
+    Gender == -;
+If (SO == G/L)
+    Gender == +;
+If (SO == Bi)
+    Gender == 0;
+
+The F prefrence(can give up to 3 for each):
+as long as 2 out of the 3 match;
+
+The P prefrence(can choose up to 10):
+as long as 2 out of the 3 match;
