@@ -10,7 +10,10 @@ Features(F):
 Gender - male, female;
 Hair - black, blond, redhead, brunette, other;
 Eyes - green, brown, blue, violit, grey, hazel, other;
+location/disstance;
 Height;
+age;
+race;
 
 Personality(P)(can choose 3):
 -Love outdoors
