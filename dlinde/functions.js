@@ -8,7 +8,7 @@ function prematch() {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("mydb");
-        dbo.collection("customers").findOne({query}, function(err, result) {
+        dbo.collection("users").findOne({query}, function(err, result) {
             if (err) throw err;
             console.log(result.name);
             db.close();
