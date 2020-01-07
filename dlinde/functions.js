@@ -10,7 +10,6 @@ function prematch() {
         var dbo = db.db("mydb");
         dbo.collection("users").findOne({query}, function(err, result) {
             if (err) throw err;
-            console.log(result.name);
             db.close();
           });
     });
@@ -21,16 +20,26 @@ function prematch() {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("mydb");
+        db.collection(collectionName).count({}, function(error, numOfDocs){
+            if(error) throw err;
+            db.close();
+        });
+    });
+
+    var cuser = numOfDocs;
+
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("mydb");
         dbo.collection("users").find().toArray(function(err, result) {
           if (err) throw err;
-          console.log(result);
           db.close();
         });
     });
 
     var num = 0;
     var list = page;
-    while (list < page + 5) {
+    while (list < page + 5 && num < cuser) {
 
         var count = 0;
         var premth = 0;
