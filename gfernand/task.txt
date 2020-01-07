@@ -1,1 +1,2 @@
 Database & Connections
+Please check the funtions.js database connection; (dlinde)

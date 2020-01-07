@@ -1,1 +1,2 @@
 Front end & navigation
+Make the database information being used in functions.js that pass the tests to be viewable on the site; (dlinde)
