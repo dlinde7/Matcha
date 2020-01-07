@@ -89,7 +89,7 @@ function prematch() {
         if (count >= 2)
             premth++;
         if (premth >= 3) {
-            console.log("Good");
+            console.log("Good"); //Change to show the users on the find match page
             num++;
             list++;
         }
