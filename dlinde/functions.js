@@ -20,7 +20,7 @@ function prematch() {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("mydb");
-        db.collection(collectionName).count({}, function(error, numOfDocs){
+        db.collection("users").count({}, function(error, numOfDocs){
             if(error) throw err;
             db.close();
         });
