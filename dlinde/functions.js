@@ -7,7 +7,7 @@ function prematch() {
     var query = {id: ""}
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("mydb");
+        var dbo = db.db("matcha");
         dbo.collection("users").findOne({query}, function(err, result) {
             if (err) throw err;
             db.close();
@@ -19,7 +19,7 @@ function prematch() {
 
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("mydb");
+        var dbo = db.db("matcha");
         db.collection("users").count({}, function(error, numOfDocs){
             if(error) throw err;
             db.close();
@@ -30,7 +30,7 @@ function prematch() {
 
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("mydb");
+        var dbo = db.db("matcha");
         dbo.collection("users").find().toArray(function(err, result) {
           if (err) throw err;
           db.close();
