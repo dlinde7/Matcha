@@ -1,0 +1,14 @@
+#highlighted {
+    position: relative;
+    background-color: #dc143c;
+  }
+  #highlighted .container-fluid h1, 
+  #highlighted .container-fluid p {
+    color: #fff;
+  }
+  #highlighted .container-fluid h1 {
+    font-size: 54px;
+    font-family: Verlag,museo-sans,'Helvetica Neue',Helvetica,Arial,sans-serif;
+    color: #414141;
+    font-weight: 300;
+  }
