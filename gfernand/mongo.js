@@ -106,6 +106,19 @@ var deleteUser = function () {
 	});
 }
 
+var exists = function (user) {
+	MongoClient.connect(url, function(err, db) {
+		if (err) throw err;
+		var dbo = db.db("mydb");
+		if((dbo.collection.countDocuments({ username: user})) > 0) {
+			return true;
+		}
+		else
+			return false;
+		db.close();
+		});
+}
+
 module.exports = dbConn
 module.exports = createColl
 module.exports = regUser
@@ -114,3 +127,4 @@ module.exports = verify
 module.exports = newPassword
 module.exports = newEmail
 module.exports = deleteUser
+module.exports = exists
