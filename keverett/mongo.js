@@ -13,6 +13,7 @@ var dbConn = function () {
 
 
 var createColl = function () {
+	console.log("colling");
 	mongoClient.connect(url, function (err, db) {
 		if (err) throw err;
 		var dbo = db.db("matcha");
@@ -24,7 +25,7 @@ var createColl = function () {
 	});
 };
 
-var regUser = function () {
+var regUser = function (user, email, pwd) {
 	mongoClient.connect(url, function (err, db){
 		if (err) throw err;
 		var dbo = db.db("matcha");
@@ -109,8 +110,8 @@ var deleteUser = function () {
 }
 
 module.exports.dbConn = dbConn
-// module.exports = createColl
-// module.exports = regUser
+module.exports.createColl = createColl
+module.exports.regUser = regUser
 // module.exports = accSetUp
 // module.exports = verify
 // module.exports = newPassword
