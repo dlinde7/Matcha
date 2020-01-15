@@ -10,6 +10,11 @@
 </head>
 <body>
     <div class = "loginBox">
+		 <ul>  <% errors.exists.forEach(function (item){
+      %>
+      <li><%= item %></li>
+    <%}); %>
+	</ul>
         <img src = "../Photos/user.png" class ="user">
         <h2>SignUp Here</h2>
         <form action = "/register/register" method = "post">

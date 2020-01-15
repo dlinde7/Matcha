@@ -1,7 +1,6 @@
 
 var mongoClient = require('mongodb');
 var url = "mongodb://localhost:27017/matcha";
-var tonic = 'water';
 var dbConn = function () {
 	console.log("here too");
 	mongoClient.connect(url, function (err, db) {
@@ -109,6 +108,31 @@ var deleteUser = function () {
 	});
 }
 
+var exists = function (user) {
+	return new Promise(resolve => {
+
+	mongoClient.connect(url, function(err, db) {
+		if (err) throw err;
+		var dbo = db.db("matcha");
+		dbo.collection("users").count({username: user}, function (error, count) 
+		{
+			if(count > 0)
+			{
+				db.close();
+				resolve(true)
+			}
+			else
+			{
+				db.close();
+				resolve (false);
+			}
+		});
+	});
+	
+});
+}
+
+module.exports.exists = exists;
 module.exports.dbConn = dbConn
 module.exports.createColl = createColl
 module.exports.regUser = regUser
