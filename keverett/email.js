@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer');
 
-var mailit = function (){
+var mailit = function (email_address, username, hash){
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -10,10 +10,10 @@ var transporter = nodemailer.createTransport({
 });
 
 var mailOptions = {
-  from: 'everett.kyle.john@gmail.com',
-  to: 'kyle@mailinator.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
+  from: user,
+  to: email_address,
+  subject: 'Matcha account verification',
+  text: 'Hello, ' + username + '! Thank you for registering an account on Matcha. To complete your account registration, please click the following link: http://localhost:3000/register/verify/' + username + '/' + Hash
 };
 
 transporter.sendMail(mailOptions, function(error, info){

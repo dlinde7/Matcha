@@ -10,10 +10,14 @@
 </head>
 <body>
     <div class = "loginBox">
-		 <ul>  <% errors.exists.forEach(function (item){
+		 <ul>  <% if((typeof errors) != 'undefined') 
+		 { errors.forEach(function (item){
       %>
       <li><%= item %></li>
-    <%}); %>
+    <%});}
+	else{
+		%><%
+	} %>
 	</ul>
         <img src = "../Photos/user.png" class ="user">
         <h2>SignUp Here</h2>
@@ -23,7 +27,7 @@
             <p>Email</p>
             <input type="text" name= "email" placeholder="Enter email">
             <p>Password</p>
-            <input type="password" name="password" placeholder="............">
+            <input type="password" name="password" placeholder="Enter password">
 			<p>Confirm password</p>
 			<input type = "password" name ="re_password">
             <input type="submit" name="" value="Register">
@@ -32,7 +36,7 @@
     
 </body>
 
-<div class = "footer">
+<!-- <div class = "footer">
     <p> &copy matcha 2019</p>
-</div>
+</div> -->
 		
