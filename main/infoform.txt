@@ -1,0 +1,13 @@
+Required (With or without user knowlegde):
+-GPS locationing
+
+Required:
+-Gender
+-Age
+
+Required (Opional):
+-Sexual orientation (None selected: bisexual)
+-Features #tags (5 limit, requires 2)
+-Personality #tags (5 limit, requires 2)
+-Bio
+-Other #tags (20 limit)

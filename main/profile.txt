@@ -1,0 +1,4 @@
+Required:
+-Profile Image
+-User info
+-User setting

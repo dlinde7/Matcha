@@ -1,0 +1,6 @@
+Requirements:
+-Username
+-Name
+-Surename
+-email
+-Password
