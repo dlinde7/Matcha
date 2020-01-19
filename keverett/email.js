@@ -10,10 +10,10 @@ var transporter = nodemailer.createTransport({
 });
 
 var mailOptions = {
-  from: user,
+  from: 'matchaemail1234@gmail.com',
   to: email_address,
   subject: 'Matcha account verification',
-  text: 'Hello, ' + username + '! Thank you for registering an account on Matcha. To complete your account registration, please click the following link: http://localhost:3000/register/verify/' + username + '/' + Hash
+  text: 'Hello, ' + username + '! Thank you for registering an account on Matcha. To complete your account registration, please click the following link: http://localhost:3000/register/verify/' + username + '/' + encodeURIComponent(hash)
 };
 
 transporter.sendMail(mailOptions, function(error, info){
@@ -24,6 +24,13 @@ transporter.sendMail(mailOptions, function(error, info){
   }
 });
 };
+
+var verify_email(user, hash)
+{
+  // Bring up user's hash from DB. If null, error.
+
+  // If they match, update verified status to active
+}
 
 
 

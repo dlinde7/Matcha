@@ -1,18 +1,19 @@
 
-var mongoClient = require('mongodb');
-var url = "mongodb://localhost:27017/matcha";
+
+	const mongoClient = require('mongodb').MongoClient;
+	const url = "mongodb+srv://Matcha:Puggles@matcha-b2mpy.mongodb.net/test?retryWrites=true&w=majority";
+	
 var dbConn = function () {
-	console.log("here too");
-	mongoClient.connect(url, function (err, db) {
-		if (err) throw err;
-		console.log("Database connected!");
-		db.close();
+	const client = new mongoClient(url, { useNewUrlParser: true });
+	client.connect(err => {
+	  const collection = client.db("test").collection("devices");
+	  // perform actions on the collection object
+	  client.close();
 	});
 };
 
 
 var createColl = function () {
-	console.log("colling");
 	mongoClient.connect(url, function (err, db) {
 		if (err) throw err;
 		var dbo = db.db("matcha");

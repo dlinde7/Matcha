@@ -20,13 +20,13 @@ app.post('/register/register', urlEncodedParser, (req, res) => {
 	//Regex pattern for email validation
 	let pattern = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 	
-	mongo.exists(user).then(result => {
-	if (result === true)
-	{
-		console.log("A user exists");
-		exists.push("Username already exists");
-	}
-
+	// mongo.exists(user).then(result => {
+		// if (result === true)
+		// {
+	// 	console.log("A user exists");
+	// 	exists.push("Username already exists");
+	// }
+	
 	if (!req.body.email.match(pattern))
 	{
 		exists.push("Not a valid email address");
@@ -43,27 +43,38 @@ app.post('/register/register', urlEncodedParser, (req, res) => {
 	}
 	else
 	{
-		bcrypt.hash(req.body.password, 10, (password_hash, err) =>
-		{
-			var email = require('./email.js');
-			verification_hash = bcrypt.hash("origami", 10, (v_hash) => {return v_hash});
-			mongo.dbConn();
-			mongo.createColl();
-			console.log(password_hash);
-			console.log(verification_hash);
-			mongo.regUser(user, email, pwd, password_hash, verification_hash);
+		var email = require('./email.js');
+		console.log(req.body.password)
+		password_hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+		console.log(password_hash);
+		verification_hash = bcrypt.hashSync("origami", bcrypt.genSaltSync(10));
+		mongo.dbConn();
+		mongo.createColl();
+		console.log(verification_hash);
+		// mongo.regUser(user, email, pwd);
 			email.mailit(req.body.email, req.body.username, verification_hash);
 			res.render("signUp", {errors: ["Your account has been registered! Please check your email to verify your account"]});
-		});
 	}
 	});
 
-})
+// })
 
 // General routing for user navigation
 app.get('/', (req, res) => {
 	res.render('index');
 });
+app.get('/register/verify/:username/:hash', (req, res) => 
+{
+	if (req.params.username && req.params.hash)
+	{
+		//Include verify function here
+	}
+	else
+	{
+		//Insert error page over here for user
+	}
+});
+
 app.get('/register/login', (req, res) => {
     res.render('login');
 });
