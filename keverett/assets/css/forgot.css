@@ -12,3 +12,9 @@
     color: #414141;
     font-weight: 300;
   }
+
+  Okay so the things I will need this week are:
+
+  * regUser must also insert a verification hash (which I will pass to it as a param)
+  * function which gets the verification hash of a user when passed the username as a param
+  * function to check if a username is already verified;
