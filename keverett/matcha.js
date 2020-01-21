@@ -28,8 +28,7 @@ app.post('/register/register', urlEncodedParser, (req, res) => {
 		if (user_exists === true) {
 			exists.push("Username already exists");
 		}
-		else if (email_exists === true)
-		{
+		else if (email_exists === true) {
 			exists.push("The email address provided is already in use");
 		}
 		else {
@@ -52,12 +51,11 @@ app.post('/register/register', urlEncodedParser, (req, res) => {
 			var email = require('./email.js');
 
 			password_hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
-
 			verification_hash = bcrypt.hashSync("origami", bcrypt.genSaltSync(10));
 			mongo.dbConn();
 			mongo.createColl();
 			console.log(verification_hash);
-			mongo.regUser(user, email, pwd);
+			mongo.regUser(user, user_email, password_hash, verification_hash);
 			email.mailit(req.body.email, req.body.username, verification_hash);
 			res.render("signUp", { errors: ["Your account has been registered! Please check your email to verify your account"] });
 		}
@@ -70,22 +68,43 @@ app.get('/', (req, res) => {
 	res.render('index');
 });
 
-// app.get('/register/verify/:username/:hash', (req, res) => {
-// 	if (req.params.username && req.params.hash) {
-// 		//Include verify function here
-// 	}
-// 	else {
-// 		//Insert error page over here for user
-// 	}
-// });
+app.get('/register/verify/:username/:hash', function (req, result) {
+	if (req.params.username && req.params.hash) {
+		mongo.get_vhash(req.params.username).then(res => {
+			if (res == req.params.hash) {
+				mongo.verify(req.params.username);
+				result.redirect('/register/login');
+			}
+		}).catch(error => { console.log(error) });
+	};
+});
 
 
-app.post('/register/login_request', urlEncodedParser, (req, res) => 
-{
-	console.log(req.body.username);
-	mongo.find('username', req.body.username);
-}
-);
+app.post('/register/login_request', urlEncodedParser, function (req, res) {
+
+
+
+mongo.find('username', req.body.username, 'password').then((password_hash) => 
+	{
+	if (password_hash) {
+		console.log("password hash is : " + password_hash)
+		bcrypt.compare(req.body.password, password_hash, function (err, res) {
+			if (res)
+			{
+			console.log('success!')
+			}
+			else
+			{
+				console.log('failure');
+			}
+		});
+	}
+	else
+	{
+		console.log('nothing');
+	}
+});
+});
 
 app.get('/register/login', (req, res) => {
 	res.render('login');

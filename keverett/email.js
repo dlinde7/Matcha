@@ -25,12 +25,12 @@ transporter.sendMail(mailOptions, function(error, info){
 });
 };
 
-var verify_email(user, hash)
-{
-  // Bring up user's hash from DB. If null, error.
+// var verify_email(user, hash)
+// {
+//   // Bring up user's hash from DB. If null, error.
 
-  // If they match, update verified status to active
-}
+//   // If they match, update verified status to active
+// }
 
 
 
