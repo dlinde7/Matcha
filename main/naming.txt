@@ -32,4 +32,5 @@ errors(array) = err;
 profile picture(array) = pric;
 location = loco;
 distance = dis;
-usercount = cuser;
+usercount = cuser
+verification hash = vhash;

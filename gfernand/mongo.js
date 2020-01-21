@@ -22,11 +22,11 @@ var createColl = function () {
 	});
 };
 
-var regUser = function () {
+var regUser = function (user, email, pwd, vhash) {
 	mongoClient.connect(url, function (err, db){
 		if (err) throw err;
 		var dbo = db.db("matcha");
-		var userInfo = { username: user, email: email, password: pwd, verified: 0 };
+		var userInfo = { username: user, email: email, password: pwd, verified: 0, verification_hash: vhash };
 		dbo.collection("users").insertOne(userInfo, function(err, res) {
 			if (err) throw err;
 			console.log("New user added");
@@ -49,7 +49,7 @@ var verify = function () {
 	});
 }
 
-var accSetUp = function () {
+/*var accSetUp = function () {
 	mongoClient.connect(url, function(err, db) {
 		if (err) throw err;
 		var dbo = db.db("matcha");
@@ -63,7 +63,7 @@ var accSetUp = function () {
 			db.close();
 		});
 	});
-}
+}*/
 
 var newPassword = function () {
 	mongoClient.connect(url, function (err, db){
@@ -107,16 +107,59 @@ var deleteUser = function () {
 }
 
 var exists = function (user) {
-	MongoClient.connect(url, function(err, db) {
-		if (err) throw err;
-		var dbo = db.db("mydb");
-		if((dbo.collection.countDocuments({ username: user})) > 0) {
-			return true;
-		}
-		else
-			return false;
-		db.close();
+	return new Promise(resolve => {
+		mongoClient.connect(url, function (err, db) {
+			if (err) throw err;
+			var dbo = db.db("matcha");
+			dbo.collection("users").count({ username: user }, function (error, count) {
+				if (count > 0) {
+					db.close();
+					resolve(true)
+				}
+				else {
+					db.close();
+					resolve(false);
+				}
+			});
 		});
+
+	});
+}
+
+var isVerified = function (user) {
+	return new Promise(resolve => {
+		mongoClient.connect(url, function (err, db) {
+			if (err) throw err;
+			var dbo = db.db("matcha");
+			dbo.collection("users").count({ username: user, verified: 1 }, function (error, count) {
+				if (count = 1) {
+					db.close();
+					resolve(true)
+				}
+				else {
+					db.close();
+					resolve(false);
+				}
+			});
+		});
+
+	});
+}
+
+var get_vhash = function (user) {
+	mongoClient.connect(url, function (err, db) {
+		if (err) throw err;
+		var dbo = db.db("matcha");
+		var query = { username: user};
+		dbo.collection("users").find(query, {vhash: 1, _id: 0}).toArray(function (err, result) {
+			if (err) throw err;
+			else
+			{
+				db.close();
+				return(result[0])
+			}
+		})
+	})
 }
 
 module.exports = dbConn
