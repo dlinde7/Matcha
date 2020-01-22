@@ -1,5 +1,11 @@
 
 // Package setup for express and EJS
+SESSION_ID = "2i8smrXY";
+
+var session = require('express-session')
+var cookieParser = require('cookie-parser');
+var LocalStorage = require('node-localstorage').LocalStorage,
+localStorage = new LocalStorage('./scratch');
 var bcrypt = require('bcrypt');
 var mongo = require('./mongo.js');
 var express = require('express');
@@ -7,6 +13,15 @@ var app = express();
 var bodyParser = require('body-parser');
 // var nodemailer = require('nodemailer');
 var urlEncodedParser = bodyParser.urlencoded({ extended: false });
+
+
+app.use(session({
+  'secret': '343ji43j4n3jn4jk3n',
+   resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false, httpOnly: true }
+}))
+app.use(cookieParser('fruit jam'));
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('assets'));
 var exists = []
@@ -87,15 +102,15 @@ app.post('/register/login_request', urlEncodedParser, function (req, res) {
 mongo.find('username', req.body.username, 'password').then((password_hash) => 
 	{
 	if (password_hash) {
-		console.log("password hash is : " + password_hash)
-		bcrypt.compare(req.body.password, password_hash, function (err, res) {
-			if (res)
+		bcrypt.compare(req.body.password, password_hash, function (err, result) {
+			if (result)
 			{
-			console.log('success!')
+				req.session.status = { logged_in: true, username: req.body.username };
+				res.send("success");
 			}
 			else
 			{
-				console.log('failure');
+				res.send('failure to log in')
 			}
 		});
 	}
@@ -115,5 +130,18 @@ app.get('/register/signUp', (req, res) => {
 app.get('/profile/:id', (req, res) => {
 	var data = { age: 29, job: 'ninja', hobbies: ['eating', 'gaming', 'shading'] };
 	res.render('profile', { person: req.params.id, data: data });
+
+	
+});
+app.get('/users/gallery', (req, res) =>
+{
+	if (req.session.status && req.session.status.logged_in)
+	{
+		res.send("Yay!");
+	}
+	else
+	{
+		res.send("Neigh!");
+	}
 });
 app.listen(3000);
