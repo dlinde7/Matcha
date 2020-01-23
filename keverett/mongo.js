@@ -26,11 +26,11 @@ var createColl = function () {
 	});
 };
 
-var regUser = function (user, email, pwd, vhash) {
+var regUser = function (user, email, pwd, vhash, fname, lname) {
 	mongoClient.connect(url, function (err, db) {
 		if (err) throw err;
 		var dbo = db.db("matcha");
-		var userInfo = { username: user, email: email, password: pwd, verified: 0, verification_hash: vhash };
+		var userInfo = { username: user, email: email, password: pwd, verified: 0, verification_hash: vhash, fname: fname, lname: lname};
 		dbo.collection("users").insertOne(userInfo, function (err, res) {
 			if (err) throw err;
 			console.log("New user added");
@@ -69,7 +69,7 @@ var verify = function (user) {
 // 	});
 // }
 
-var newPassword = function () {
+var newPassword = function (user, pwd) {
 	mongoClient.connect(url, function (err, db) {
 		if (err) throw err;
 		var dbo = db.db("matcha");
@@ -174,6 +174,29 @@ var find = function (type, value, find_value) {
 		}).catch(err => {console.log(err)});
 }
 
+var findAll = function (type, value) {
+		var query = { [type]: value };
+	return mongoClient.connect(url).then(function (db) {
+		// if (err) throw err;
+		var dbo = db.db("matcha");
+		return dbo;
+	}).then(dbo => {
+		var array = dbo.collection("users").find(query).toArray();
+		return array;
+	}).then((result) =>
+		{
+			if (result[0]) {
+				// console.log("sending user info")
+				// console.log(result[0][find_value]);
+				// db.close();
+				return result[0]
+			}
+			else {
+				return null;
+			}
+		}).catch(err => {console.log(err)});
+}
+
 var get_vhash = function (user) {
 	return new Promise(function (resolve, reject) {
 
@@ -202,6 +225,7 @@ module.exports.find = find;
 module.exports.get_vhash = get_vhash;
 // module.exports = accSetUp
 module.exports.verify = verify
-// module.exports = newPassword
+module.exports.findAll = findAll
+module.exports.newPassword = newPassword
 // module.exports = newEmail
 // module.exports = deleteUser
