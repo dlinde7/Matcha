@@ -1,0 +1,19 @@
+Age: Slider going from 18 to 118
+
+Gender: Male, Female
+
+Sexual Orientation: Hetrosexual, Gay/Lesbian, Bisexual. (Bisexual default)
+
+Bio: Self fill in, max 200 characters.
+
+Location: Drop down choice. (if left blank, use GPS locationing without user knowladge)
+
+Feature: eg. #browneyes, #pearsings, #longhair. (Self fill in, 10 max, 2 min)
+
+Personality: eg. #gamer, #foodlover, #animallover, #lazy. (Self fill in, 10 max, 2 min)
+
+Other: eg. #dogowner, #travel, #titanic. (self fill in, 5 max)
+
+Looking for: eg. #greeneyes, #sportsfan, #competetive. (self fill in, 25 max, 5 min)
+
+Age range: Slider with eg. ±2 years, ±5 years
