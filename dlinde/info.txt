@@ -15,3 +15,5 @@ Personality: eg. #gamer, #foodlover, #animallover, #lazy. (Self fill in, 10 max,
 Other: eg. #dogowner, #travel, #titanic. (self fill in, 5 max)
 
 Looking for: eg. #greeneyes, #sportsfan, #competetive. (self fill in, 25 max, 5 min)
+
+Age range: Slider with eg. ±2 years, ±5 years
