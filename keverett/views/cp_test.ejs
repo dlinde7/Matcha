@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html></html>
+<head>
+    <div class= "header">
+    <h1> Welcome to Matcha</h1>
+    </div>
+    <meta charset="utf-8">
+    <title>Matcha</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class = "loginBox">
+		<ul>  <% if((typeof errors) != 'undefined') 
+		 { errors.forEach(function (item){
+      %>
+      <li><%= item %></li>
+    <%});}
+	else{
+		%><%
+	} %>
+	</ul>
+        
+        <h2>This is just a test page for change password</h2>
+        <form action = "/user/change_password" method = "post">
+            <p>new password</p>
+            <input type="text" name= "new_pwd" placeholder="Enter username">
+            <p>confirm</p>
+            <input type="password" name="confirm_pwd" placeholder="............">
+            <input type="submit" name="submit" value="Sign In">
+            <a href="../register/forgot_pass.html">Forgot Password</a>
+            <div>
+            <a href="../register/signUp">Don't have an account? SignUp Here</a>
+            </div>
+        </form>
+    </div> 
+</body>
+
+<div class = "footer">
+    <p> &copy matcha 2019</p>
+</div>

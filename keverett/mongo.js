@@ -74,8 +74,9 @@ var newPassword = function (user, pwd) {
 		if (err) throw err;
 		var dbo = db.db("matcha");
 		var myQuery = { username: user };
-		var newValues = { password: pwd };
+		var newValues = { $set: { password: pwd }};
 		dbo.collection("users").updateOne(myQuery, newValues, function (err, res) {
+		console.log(user);
 			if (err) throw err;
 			console.log("Password updated");
 			db.close;
@@ -216,6 +217,26 @@ var get_vhash = function (user) {
 	})
 }
 
+var userUpdate = function (user) {
+	mongoClient.connect(url, function (err, db) {
+		if (err) throw err;
+		var dbo = db.db("matcha");
+		var myQuery = { username: user };
+		var newValues = { $set: {}};
+		Object.keys(user).forEach(key =>
+	{
+		console.log(user[key])
+		newValues.$set[key] = user[key];
+	})
+	console.log(newValues)
+		// dbo.collection("users").updateOne(myQuery, newValues, function (err, res) {
+		// console.log(user);
+		// 	if (err) throw err;
+		// 	console.log("Password updated");
+		// 	db.close;
+		// });
+	});
+}
 module.exports.exists = exists;
 module.exports.dbConn = dbConn
 module.exports.createColl = createColl
@@ -227,5 +248,6 @@ module.exports.get_vhash = get_vhash;
 module.exports.verify = verify
 module.exports.findAll = findAll
 module.exports.newPassword = newPassword
+module.exports.userUpdate = userUpdate
 // module.exports = newEmail
 // module.exports = deleteUser

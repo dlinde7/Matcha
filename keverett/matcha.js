@@ -33,7 +33,7 @@ app.post('/register/register', urlEncodedParser, (req, res) => {
 	var user_email = req.body.email;
 	console.log("got here");
 	//Regex pattern for email validation
-	let pattern = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+	const pattern = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 	async function authenticate() {
 
@@ -129,6 +129,9 @@ mongo.find('username', req.body.username, 'password').then((password_hash) =>
 });
 });
 
+app.get('/users/change_password', (req, res) => {
+	res.render('cp_test.ejs');
+});
 app.get('/register/login', (req, res) => {
 	res.render('login');
 });
@@ -199,19 +202,130 @@ app.get('/register/forgot_password_login/:username/:hash', async function (req, 
 	};
 });
 
-app.post('/user/change_password', urlEncodedParser, async function (req, res) {
+// app.post('/user/change_password', urlEncodedParser, async function (req, res) {
+		
+// 	if (req.session.status && req.session.status.logged_in)
+// 	{
+// 		res.send("Yay!");
+// 		var exists = [];
+// 		console.log(req.body);
+// 			if (req.body.new_pwd.length < 8)
+// 			{
+// 				exists.push("Passwords must be at least 8 characters long");
+// 			}
+// 			if (req.body.new_pwd !== req.body.confirm_pwd) {
+// 				exists.push("Passwords do not match")
+// 			}
+// 			if (!req.body.new_pwd.match(/[a-zA-Z]/) || !req.body.new_pwd.match(/[\d]/) || !req.body.new_pwd.match(/[^a-zA-Z\d]/)) {
+// 				exists.push("Passwords must contain at least of each category: lowercase characters, uppercase characters, number and special characters(!, *, # etc)")
+// 			}
+// 		if (exists.length > 0) {
+// 			console.log("Error rendering " + exists);
+// 			res.render('/user/change_password', { errors: exists });
+// 			exists = [];
+// 		}
+// 		else
+// 		{
+// 			mongo.newPassword(req.session.status.username, req.body.new_pwd);
+// 			// res.render('/user/change_password', { exists: "Your password has been updated. Enjoy!"})
+// 			console.log("Password changed");
+// 		}
+// 	}
+// 	else
+// 	{
+// 		// res.render("Error. Not logged in") 
+// 	}
+// })
 
+app.post('/user/change_password', urlEncodedParser, function (req, res) {
+	
+	mongo.userUpdate(req.body);
+
+	// if (req.session.status && req.session.status.logged_in)
+	// {
+	// 	res.send("Yay!");
+	// 	var exists = [];
+	// 	console.log(req.body);
+	// 		if (req.body.new_pwd.length < 8)
+	// 		{
+	// 			exists.push("Passwords must be at least 8 characters long");
+	// 		}
+	// 		if (req.body.new_pwd !== req.body.confirm_pwd) {
+	// 			exists.push("Passwords do not match")
+	// 		}
+	// 		if (!req.body.new_pwd.match(/[a-zA-Z]/) || !req.body.new_pwd.match(/[\d]/) || !req.body.new_pwd.match(/[^a-zA-Z\d]/)) {
+	// 			exists.push("Passwords must contain at least of each category: lowercase characters, uppercase characters, number and special characters(!, *, # etc)")
+	// 		}
+	// 	if (exists.length > 0) {
+	// 		console.log("Error rendering " + exists);
+	// 		res.render('/user/change_password', { errors: exists });
+	// 		exists = [];
+	// 	}
+	// 	else
+	// 	{
+	// 		mongo.newPassword(req.session.status.username, req.body.new_pwd);
+	// 		// res.render('/user/change_password', { exists: "Your password has been updated. Enjoy!"})
+	// 		console.log("Password changed");
+	// 	}
+	// }
+	// else
+	// {
+	// 	// res.render("Error. Not logged in") 
+	// }
+})
+
+
+app.post('/user/change_info', urlEncodedParser, async function (req, res) {
+		
+	if (req.session.status && req.session.status.logged_in)
+	{
 		var exists = [];
-			if (pwd.length < 8)
+		console.log(req.body);
+
+		//Check field validity
+			if (req.body.username.length < 4)
 			{
-				exists.push("Passwords must be at least 8 characters long");
+				exists.push("Usernames should be at least 4 characters long");
 			}
-			if (req.body.password !== req.body.re_password) {
-				exists.push("Passwords do not match")
+			if(req.body.features.length < 2)
+			{
+				exists.push("You need to assign yourself at least 2 general features. #don'tbeshy")
 			}
-			if (!req.body.password.match(/[a-zA-Z]/) || !req.body.password.match(/[\d]/) || !req.body.password.match(/[^a-zA-Z\d]/)) {
-				exists.push("Passwords must contain at least of each category: lowercase characters, uppercase characters, number and special characters(!, *, # etc)")
+			if(req.body.features.length > 10)
+			{
+				exists.push("You can only list up to 10 features. Choose wisely!")
 			}
+			if(req.body.personality.length < 2)
+			{
+				exists.push("You need to assign yourself at least 2 personality features. #don'tbeshy")
+			}
+			if(req.body.personality.length > 10)
+			{
+				exists.push("You can only list up to 10 personality features. Choose wisely!")
+			}
+			if(req.body.other.length < 2)
+			{
+				exists.push("You need to assign yourself at least 2 other features. #don'tbeshy")
+			}
+			if(req.body.personality.length > 10)
+			{
+				exists.push("You can only list up to 10 other features. Choose wisely!")
+			}
+			if(req.body.looking_for.length < 2)
+			{
+				exists.push("You need to give us at least 2 features you are looking for in a person.")
+			}
+			if(req.body.looking_for.length > 25)
+			{
+				exists.push("Don't be greedy! Keep your list of wanted features to 25 or less.")
+			}
+			if (req.body.bio.length > 200)
+			{
+				exists.push("Please shorten your bio. #TMI")
+			}
+
+
+
 		if (exists.length > 0) {
 			console.log("Error rendering " + exists);
 			res.render('/user/change_password', { errors: exists });
@@ -219,10 +333,18 @@ app.post('/user/change_password', urlEncodedParser, async function (req, res) {
 		}
 		else
 		{
-			mongo.newPassword(req.session.status.username, req.body.password);
-			res.render('/user/change_password', { exists: "Your password has been updated. Enjoy!"})
+			if (!req.body.location)
+			{
+				//Code for gps location info
+			}
+			mongo.userUpdate(req.body);
+			// res.render('/user/change_password', { exists: "Your password has been updated. Enjoy!"})
+			console.log("Password changed");
 		}
+	}
+	else
+	{
+		// res.render("Error. Not logged in") 
+	}
 })
-
-
 app.listen(3000);
