@@ -2,6 +2,38 @@ function calpop() {
     pop = (likec/cuser) * 100 + ((mthc/likec) * 100)/2 + (pvt/100);
 }
 
+function match(age, gap, sor, gen, loco) {
+    
+    if (sor < 0) {
+        if (gen == Male) {
+            var gen2 = "Female";
+        }
+        else {
+            var gen2 = "Male";
+        }
+    }
+    else if (sor > 0) {
+        var gen2 = gen;
+    }
+
+    if (sor == 0) {
+        var query = {age: {$gt: (age + gap), $lt: (age - gap)}, loco: loco};
+    }
+    else {
+        var query = {age: {$gt: (age + gap), $lt: (age - gap)}, gen: gen2, loco: loco};
+    }
+
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("matcha");
+        dbo.collection("users").find({query}).toArray(function(err, results) {
+          if (err) throw err;
+          console.log(results);
+          db.close();
+        });
+    });
+}
+
 function prematch() {
 
     var query = {id: ""}
