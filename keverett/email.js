@@ -1,7 +1,13 @@
 var nodemailer = require('nodemailer');
 
-var mailit = function (email_address, username, hash){
-var transporter = nodemailer.createTransport({
+
+class Mailer {
+  constructor()
+  {
+
+  }
+  verification_email(email_address, username, hash){
+    var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'matchaemail1234@gmail.com',
@@ -9,7 +15,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-var mailOptions = {
+let mailOptions = {
   from: 'matchaemail1234@gmail.com',
   to: email_address,
   subject: 'Matcha account verification',
@@ -25,7 +31,7 @@ transporter.sendMail(mailOptions, function(error, info){
 });
 };
 
-var mail_password_reset = function (email_address, username, hash){
+passwordResetEmail(email_address, username, hash){
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -34,7 +40,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-var mailOptions = {
+let mailOptions = {
   from: 'matchaemail1234@gmail.com',
   to: email_address,
   subject: 'Password reset request',
@@ -58,6 +64,7 @@ transporter.sendMail(mailOptions, function(error, info){
 // }
 
 
+}
 
-module.exports.mailit = mailit;
-module.exports.mailit = mail_password_reset;
+module.exports = Mailer;
+// module.exports.mailit = mail_password_reset;

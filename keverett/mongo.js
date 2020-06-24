@@ -1,8 +1,9 @@
 
 
 const mongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/matcha";
-// const url = "mongodb+srv://Matcha:Puggles@matcha-b2mpy.mongodb.net/test?retryWrites=true&w=majority";
+// var url = "mongodb://localhost:27017/matcha";
+const url = "mongodb+srv://admin:admin@cluster0-dw8fj.mongodb.net/test?retryWrites=true&w=majority";
+
 
 var dbConn = function () {
 	const client = new mongoClient(url, { useNewUrlParser: true });
